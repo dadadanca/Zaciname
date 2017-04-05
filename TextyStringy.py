@@ -1,5 +1,7 @@
 zpravaProDanu = "Tohle je tajná zpráva, kterou je nutné přečíst. Konference se mi moc líbila a naše účast stála za to Mimochodem, pěkný stánek."
 
+# A tohle jsem pripsal Ja
+
 print(len(zpravaProDanu))
 print(zpravaProDanu[4])
 print(zpravaProDanu[:10:-1])
