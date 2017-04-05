@@ -36,4 +36,6 @@ while HracuvText!= "":
     print("Skore: %s:%s %s:%s"%(JmenoHrace, JmenoPocitace, HracovoSkore,PocitacovoSkore))
     HracuvText = input("Zvol: ")
 
+#     Vzdycky vyhraju
+
 
