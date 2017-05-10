@@ -12,5 +12,6 @@ slova = map(ZvetsiSlovo, slova)
 velkaSlova = list(slova)
 print(velkaSlova)
 
-print(ZvetsiSlovo("josef"))
 print(" ".join(velkaSlova))
+# vytvori mi vetu z velkaSlova
+
