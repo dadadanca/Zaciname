@@ -7,10 +7,9 @@ def ZvetsiSlovo (slovo):
         return slovo[0].upper()+ slovo[1::]
     else:
         return slovo
-
+# Dana: map aplikuje funkci ZvetsiSlovo na všechna slova
 slova = map(ZvetsiSlovo, slova)
 velkaSlova = list(slova)
 print(velkaSlova)
 
-print(ZvetsiSlovo("josef"))
 print(" ".join(velkaSlova))
