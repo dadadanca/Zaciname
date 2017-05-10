@@ -1,0 +1,5 @@
+Chcete poznat, jak fungují programovací jazyky a jak IDEcka rozumí kódu? 
+Rádi byste si osahali abstraktní syntaktické stromy, meta-modely, typové systémy nebo generátory kódu? 
+Máte touhu zkusit neco nestandardního? V JetBrains rádi uvítáme jednoho ci dva studenty se zájmem o teorii programovacích jazyku a prekladacu na stáž u projektu MPS. 
+Tento projekt klade vysoké požadavky na teoretické znalosti v oboru a predpokládá samostatnou práci pri objevování neznámých oblastí.
+

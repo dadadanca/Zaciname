@@ -1,0 +1,9 @@
+Zadejte vetu ke zvetseni:['Chcete', 'Poznat,', 'Jak', 'Fungují', 'Programovací', 'Jazyky', 'a', 'Jak', 'IDEcka', 'Rozumí', 'Kódu?', '']
+Chcete Poznat, Jak Fungují Programovací Jazyky a Jak IDEcka Rozumí Kódu? 
+Zadejte dalsi vetu ke zvetseni:['Rádi', 'Byste', 'Si', 'Osahali', 'Abstraktní', 'Syntaktické', 'Stromy,', 'Meta-modely,', 'Typové', 'Systémy', 'Nebo', 'Generátory', 'Kódu?', '']
+Rádi Byste Si Osahali Abstraktní Syntaktické Stromy, Meta-modely, Typové Systémy Nebo Generátory Kódu? 
+Zadejte dalsi vetu ke zvetseni:['Máte', 'Touhu', 'Zkusit', 'Neco', 'Nestandardního?', 'V', 'JetBrains', 'Rádi', 'Uvítáme', 'Jednoho', 'Ci', 'Dva', 'Studenty', 'Se', 'Zájmem', 'o', 'Teorii', 'Programovacích', 'Jazyku', 'a', 'Prekladacu', 'Na', 'Stáž', 'u', 'Projektu', 'MPS.', '']
+Máte Touhu Zkusit Neco Nestandardního? V JetBrains Rádi Uvítáme Jednoho Ci Dva Studenty Se Zájmem o Teorii Programovacích Jazyku a Prekladacu Na Stáž u Projektu MPS. 
+Zadejte dalsi vetu ke zvetseni:['Tento', 'Projekt', 'Klade', 'Vysoké', 'Požadavky', 'Na', 'Teoretické', 'Znalosti', 'v', 'Oboru', 'a', 'Predpokládá', 'Samostatnou', 'Práci', 'Pri', 'Objevování', 'Neznámých', 'Oblastí.']
+Tento Projekt Klade Vysoké Požadavky Na Teoretické Znalosti v Oboru a Predpokládá Samostatnou Práci Pri Objevování Neznámých Oblastí.
+Zadejte dalsi vetu ke zvetseni:Diky, ahoj
