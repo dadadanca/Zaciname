@@ -1,0 +1,4 @@
+Chcete poznat, jak fungují programovací jazyky a jak IDEcka rozumí kódu?
+Rádi byste si osahali abstraktní syntaktické stromy, meta-modely, typové systémy nebo generátory kódu?
+
+
