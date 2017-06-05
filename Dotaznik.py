@@ -21,4 +21,4 @@ print(v)
 print(jmenoNejstarsiho)
 
 zdrojovyDokument.close()
-# parcujeme dokument
+# parsujeme dokument
