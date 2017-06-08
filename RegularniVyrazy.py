@@ -1,5 +1,7 @@
 import re
 
+# https://docs.python.org/3/library/re.html
+
 print(re.findall(r"Dana", "Kde je Dana? Dana je doma."))
 # vyhleda mi "Dana" v otazce a da mi vyhledane vyrazy do seznamu aneb hleda CO, KDE
 
