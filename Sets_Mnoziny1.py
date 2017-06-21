@@ -15,4 +15,6 @@ print(A)
 A.remove("Jake")
 print(A)
 
+
 # print(A.remove("Jake"))
+# proc to nefunguje?
