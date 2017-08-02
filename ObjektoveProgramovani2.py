@@ -43,10 +43,13 @@ class ZlyPes(Pes):
         self.velikost = velikost
     def projevse(self):
         print("zacatek")
-        for i in range(1, self.velikost):
+        for i in range(0, self.velikost):
             super().projevse()
         print("konec")
 
 
 Brucoun=ZlyPes("Brucoun", 10, 6)
 Brucoun.projevse()
+
+
+
