@@ -22,6 +22,10 @@ def Save ():
                                           title="Please select a file name for saving:",
                                           filetypes=my_filetypes)
     Otevirany_soubor = open(Jmeno_souboru, "w")
+    Otevirany_soubor.write("DV\n")
+    Otevirany_soubor.write(Adresat.get()+"\n")
+    Otevirany_soubor.write(Subject.get())
+    Otevirany_soubor.write("\n")
     Otevirany_soubor.write(Text.get("0.0", END))
 
 
@@ -33,7 +37,17 @@ def Open ():
     Otevirany_soubor = open(Jmeno_souboru, "r")
     obsah=Otevirany_soubor.read()
     Text.delete("0.0", END)
-    Text.insert("0.0", obsah)
+    Adresat.delete("0", END)
+    Subject.delete("0", END)
+
+    if obsah.startswith("DV\n"):
+        radky = obsah.split("\n")
+        Adresat.insert("0", radky[1])
+        Subject.insert("0", radky[2])
+        Obsah_zpravy = "\n".join(radky[3::])
+        Text.insert("0.0", Obsah_zpravy)
+    else:
+        Text.insert("0.0", obsah)
 
 m=Menu(root)
 root.config(menu=m)
@@ -57,7 +71,7 @@ NapisProAdresata["padx"] = 10
 NapisProAdresata["pady"] = 10
 NapisProAdresata.grid(row=0, column=0, sticky="W")
 
-Adresat=Text(myContainer1, height=1, width=50)
+Adresat=Entry(myContainer1, width=50)
 Adresat.grid(row=0, column=1)
 
 NapisProSubject=Label(myContainer1)
@@ -68,7 +82,7 @@ NapisProSubject["padx"] = 10
 NapisProSubject["pady"] = 10
 NapisProSubject.grid(row=1, column=0, sticky="W")
 
-Subject=Text(myContainer1, height=1, width=50)
+Subject=Entry(myContainer1, width=50)
 Subject.grid(row=1, column=1)
 
 NapisProText=Label(myContainer1)
@@ -88,7 +102,7 @@ def button1Click(event):
         Text.delete("0.0", END)
 
 def button2Click(event):
-    zadany_email=Adresat.get("0.0", END).strip()
+    zadany_email=Adresat.get().strip()
     if zadany_email== "":
         messagebox.showinfo("POZOR POZOR", "Please, insert an address.", parent=root)
         return
@@ -97,7 +111,7 @@ def button2Click(event):
         messagebox.showinfo("POZOR POZOR", "Your e-mail address is not valid.", parent=root)
         return
 
-    if Subject.get("0.0", END).strip()== "":
+    if Subject.get().strip()== "":
         answer = messagebox.askyesno("A CO PREDMET?", "Are you sure to send e-mail without subject?", parent=root)
         if answer==False:
             return
