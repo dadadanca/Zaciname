@@ -128,10 +128,22 @@ class Binarni_Operator(Operator):
         return spocitej(self.operator,l, p)
 
     def optimize(self, parent):
-        if self.operator == "+" and self.operator == "-":
+        if self.operator == "+":
             LO = self.levy.optimize(self)
             PO = self.pravy.optimize(self)
             if isinstance(LO, Cisla) and LO.hodnota == 0:
+                return PO
+            if isinstance(PO, Cisla) and PO.hodnota == 0:
+                return LO
+            self.pravy = PO
+            self.levy = LO
+            return self
+        if self.operator == "-":
+            LO = self.levy.optimize(self)
+            PO = self.pravy.optimize(self)
+            if isinstance(LO, Cisla) and LO.hodnota == 0:
+                if(isinstance(PO, Cisla)):
+                    PO.hodnota = PO.hodnota*-1
                 return PO
             if isinstance(PO, Cisla) and PO.hodnota == 0:
                 return LO
