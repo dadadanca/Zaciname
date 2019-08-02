@@ -109,11 +109,15 @@ class Node:
         pass
     def optimize(self, parent):
         return self
+    def visit(self, visitor):
+        pass
 
 class Operator (Node):
     def __init__(self, operator, priorita):
         self.operator = operator
         self.priorita = priorita
+    def visit(self, visitor):
+        visitor.visit_operator(self)
 
 class Binarni_Operator(Operator):
     def __init__(self, operator, priorita):
@@ -211,6 +215,8 @@ class Cisla (Node):
 
     def compute(self):
         return self.hodnota
+    def visit(self, visitor):
+        visitor.visit_cislo(self)
 
 
 
@@ -257,12 +263,146 @@ for x in tokeny_vyraz:
                     else:
                         vrchni_znamenko()
 
-print(cislice.peek())
-print(cislice.peek().compute())
+class Visitor:
+    def visit_cislo(self, cislo):
+        pass
+    def visit_operator(self, operator):
+        pass
+
+class Printing_Visitor(Visitor):
+    def __init__(self):
+        self.text = ""
+    def visit_cislo(self, cislo):
+        self.text = self.text + "{}".format(cislo.hodnota)
+    def visit_operator(self, operator):
+        if isinstance(operator, Zavorky):
+            self.text = self.text + "("
+            operator.obsah.visit(self)
+            self.text = self.text + ")"
+        if isinstance(operator, Binarni_Operator):
+            operator.levy.visit(self)
+            self.text = self.text + operator.operator
+            operator.pravy.visit(self)
+
+
+class Computing_Visitor(Visitor):
+    def __init__(self):
+        self.vysledek = 0
+
+    def visit_cislo(self, cislo):
+        self.vysledek = cislo.hodnota
+
+    def visit_operator(self, operator):
+        if isinstance(operator, Zavorky):
+            operator.obsah.visit(self)
+        if isinstance(operator, Binarni_Operator):
+            levy_poctar = Computing_Visitor()
+            pravy_poctar = Computing_Visitor()
+            operator.levy.visit(levy_poctar)
+            operator.pravy.visit(pravy_poctar)
+            levy_vysledek = levy_poctar.vysledek
+            pravy_vysledek = pravy_poctar.vysledek
+            self.vysledek = spocitej(operator.operator, levy_vysledek, pravy_vysledek)
+
+class Optimizing_Visitor(Visitor):
+    def __init__(self):
+        self.vysledek = None
+
+    def visit_cislo(self, cislo):
+        self.vysledek = cislo
+
+    def visit_operator(self, operator):
+        if isinstance(operator, Zavorky):
+            obsahovy_optimalizator = Optimizing_Visitor()
+            operator.obsah.visit(obsahovy_optimalizator)
+            if isinstance(obsahovy_optimalizator.vysledek, Zavorky):
+                self.vysledek = obsahovy_optimalizator.vysledek
+            else:
+                if isinstance(obsahovy_optimalizator.vysledek, Binarni_Operator):
+                    optimalozovany_operator = obsahovy_optimalizator.vysledek
+                    if optimalozovany_operator.operator == "*" or optimalozovany_operator.operator == "/":
+                        self.vysledek = obsahovy_optimalizator.vysledek
+                        return
+                self.vysledek = operator
+                self.vysledek.obsah = obsahovy_optimalizator.vysledek
+
+        if isinstance(operator, Binarni_Operator):
+            levy_optimalizator = Optimizing_Visitor()
+            pravy_optimalizator = Optimizing_Visitor()
+            operator.levy.visit(levy_optimalizator)
+            operator.pravy.visit(pravy_optimalizator)
+            if operator.operator == "+":
+                if isinstance(levy_optimalizator.vysledek, Cisla) and levy_optimalizator.vysledek.hodnota == 0:
+                    self.vysledek = pravy_optimalizator.vysledek
+                elif isinstance(pravy_optimalizator.vysledek, Cisla) and pravy_optimalizator.vysledek.hodnota == 0:
+                    self.vysledek = levy_optimalizator.vysledek
+                else:
+                    self.vysledek = operator
+                    if isinstance(levy_optimalizator.vysledek, Zavorky) and isinstance(levy_optimalizator.vysledek.obsah, Binarni_Operator) :
+                        self.vysledek.levy = levy_optimalizator.vysledek.obsah
+                    else:
+                        self.vysledek.levy = levy_optimalizator.vysledek
+                    if isinstance(pravy_optimalizator.vysledek, Zavorky) and isinstance(
+                            pravy_optimalizator.vysledek.obsah, Binarni_Operator):
+                        self.vysledek.pravy = pravy_optimalizator.vysledek.obsah
+                    else:
+                        self.vysledek.pravy = pravy_optimalizator.vysledek
+
+            if operator.operator == "-":
+                if isinstance(levy_optimalizator.vysledek, Cisla) and levy_optimalizator.vysledek.hodnota == 0:
+                    if isinstance(pravy_optimalizator.vysledek, Cisla):
+                        self.vysledek = pravy_optimalizator.vysledek
+                        self.vysledek.hodnota = -1 * self.vysledek.hodnota
+                        return
+                elif isinstance(pravy_optimalizator.vysledek, Cisla) and pravy_optimalizator.vysledek.hodnota == 0:
+                    self.vysledek = levy_optimalizator.vysledek
+                else:
+                    self.vysledek = operator
+                    self.vysledek.levy = levy_optimalizator.vysledek
+                    self.vysledek.pravy = pravy_optimalizator.vysledek
+            if operator.operator == "*":
+                if isinstance(levy_optimalizator.vysledek, Cisla) and levy_optimalizator.vysledek.hodnota == 1:
+                    self.vysledek = pravy_optimalizator.vysledek
+                elif isinstance(pravy_optimalizator.vysledek, Cisla) and pravy_optimalizator.vysledek.hodnota == 1:
+                    self.vysledek = levy_optimalizator.vysledek
+                elif isinstance(levy_optimalizator.vysledek, Cisla) and levy_optimalizator.vysledek.hodnota == 0:
+                    self.vysledek = levy_optimalizator.vysledek
+                elif isinstance(pravy_optimalizator.vysledek, Cisla) and pravy_optimalizator.vysledek.hodnota == 0:
+                    self.vysledek = pravy_optimalizator.vysledek
+                else:
+                    self.vysledek = operator
+                    self.vysledek.levy = levy_optimalizator.vysledek
+                    self.vysledek.pravy = pravy_optimalizator.vysledek
+            if operator.operator == "/":
+                if isinstance(levy_optimalizator.vysledek, Cisla) and levy_optimalizator.vysledek.hodnota == 0:
+                    self.vysledek = levy_optimalizator.vysledek
+                elif isinstance(pravy_optimalizator.vysledek, Cisla) and pravy_optimalizator.vysledek.hodnota == 1:
+                    self.vysledek = levy_optimalizator.vysledek
+                else:
+                    self.vysledek = operator
+                    self.vysledek.levy = levy_optimalizator.vysledek
+                    self.vysledek.pravy = pravy_optimalizator.vysledek
+
+
+print("-----------------------------")
+
+navstevnik1 = Printing_Visitor()
+cislice.peek().visit(navstevnik1)
+print(navstevnik1.text)
+
+poctar1 = Computing_Visitor()
+cislice.peek().visit(poctar1)
+print(poctar1.vysledek)
 
 naparsovany_vyraz_Obaleny_zavorkami = cislice.peek()
 naparsovany_vyraz = naparsovany_vyraz_Obaleny_zavorkami.obsah
-print(naparsovany_vyraz.optimize(None))
+optimalizator = Optimizing_Visitor()
+naparsovany_vyraz.visit(optimalizator)
+
+navstevnik1 = Printing_Visitor()
+optimalizator.vysledek.visit(navstevnik1)
+print(navstevnik1.text)
+
 
 
 
